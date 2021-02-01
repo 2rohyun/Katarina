@@ -23,7 +23,7 @@ class SummonerPipeline(private val riotAPI: RiotAPI,
 
     fun pipelining() {
         logger.info("-------- Get Summoners for Scan From DB ... --------")
-        var summoners = getSummonersForScan()
+        val summoners = getSummonersForScan()
         if( summoners.isEmpty() ) {
             logger.info("ERR :: There's no Summoner in DB.")
             return
@@ -39,7 +39,7 @@ class SummonerPipeline(private val riotAPI: RiotAPI,
             logger.info("SCAN   :: [ $pk, $accountId ]")
 
             // 504 Error avoiding
-            var summonerFromServer = getSummonerInfoForCheckFromAPI(accountId)
+            val summonerFromServer = getSummonerInfoForCheckFromAPI(accountId)
 
             if (summonerName != summonerFromServer.name) {
                 var summonerToDB = summonerService.getSummonerByAccountId(accountId)
@@ -77,6 +77,8 @@ class SummonerPipeline(private val riotAPI: RiotAPI,
 
     fun getSummonerInfoForCheckFromAPI(accountId: String) : SummonerDTO {
         var summoner = riotAPI.getSummonerByAccountIdWithBlocking(accountId).block()
+        // while summoner from API is not null ( not 504, equals not empty Mono )
+        // wait and callback for avoiding 504 Response
         while( summoner == null ) {
             logger.warn("Retry Request")
             Thread.sleep(1000L)
@@ -100,10 +102,12 @@ class SummonerPipeline(private val riotAPI: RiotAPI,
                 val player = it.player
                 val accountId = player.accountId
                 userWithMatchService.create(accountId, matchId, queueType, matchEndTime)
+                // If Summoner is not enrolled on DB
                 if (summonerService.isSummonerExist(accountId) == 0){
                     summonerService.create(Summoner(player.platformId, player.accountId, player.summonerName, player.summonerId))
                 }
                 else {
+                    // summoner Name can be different from before. so Check it and Update.
                     var summoner = summonerService.getSummonerByAccountId(accountId)
                     if ( summoner.summonerName != player.summonerName ) {
                         summoner.summonerName = player.summonerName
@@ -156,6 +160,7 @@ class SummonerPipeline(private val riotAPI: RiotAPI,
                 // avoid api request call limit
                 Thread.sleep(1000)
             }
+            // If 504 Error occurred, wait and retry with kept indexes
             else {
                 logger.warn("Retry Request")
                 Thread.sleep(1000L)

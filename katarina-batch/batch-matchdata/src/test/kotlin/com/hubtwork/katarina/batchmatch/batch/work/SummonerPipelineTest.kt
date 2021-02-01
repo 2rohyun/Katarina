@@ -147,22 +147,11 @@ class SummonerPipelineTest {
         summonerPipeLine.readSummonersFromDBForTest()
         matcherService.getAllMatchCountEachInDB()
 
-        summonerPipeLine.pipelining()
-
-        val matchUserCount3 = summonerPipeLine.getAllUserMatchDataCount()
-        val summonerCount3 = summonerPipeLine.getAllSummonerDataCount()
-
-        summonerPipeLine.readSummonersFromDBForTest()
-        matcherService.getAllMatchCountEachInDB()
-
         println("first matchCount: $matchUserCount")
         println("first userCount: $summonerCount")
 
         println("second matchCount: $matchUserCount2")
         println("second userCount: $summonerCount2")
-
-        println("third matchCount: $matchUserCount3")
-        println("third userCount: $summonerCount3")
 
     }
 
