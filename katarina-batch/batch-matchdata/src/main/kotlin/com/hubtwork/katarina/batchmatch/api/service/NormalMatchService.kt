@@ -14,6 +14,9 @@ class NormalMatchService(private val repository: NormalMatchRepository) {
     fun getMatchByMatchId(matchId: Long): NormalMatch? =
         repository.findByIdOrNull(matchId)
 
+    fun getAllCount(): Int =
+        repository.findAll().size
+
     fun update() {
         TODO("Not yet implemented")
     }

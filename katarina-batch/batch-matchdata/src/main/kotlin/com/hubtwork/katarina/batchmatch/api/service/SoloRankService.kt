@@ -17,6 +17,9 @@ class SoloRankService(val repository: SoloRankRepository) {
     fun getFirstMatchForTest(): SoloRank? =
         repository.getFirstMatch()
 
+    fun getAllCount(): Int =
+        repository.findAll().size
+
     fun update() {
         TODO("Not yet implemented")
     }

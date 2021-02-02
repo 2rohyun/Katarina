@@ -6,10 +6,16 @@ import com.hubtwork.katarina.batchmatch.domain.riot.v4.match.MatchlistDTO
 import com.hubtwork.katarina.batchmatch.domain.riot.v4.summoner.SummonerDTO
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpHeaders
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
+import org.springframework.web.reactive.function.client.WebClientResponseException
+import org.springframework.web.server.ServerErrorException
 import org.springframework.web.util.UriComponentsBuilder
 import reactor.core.publisher.Mono
+import reactor.kotlin.core.publisher.toMono
+import reactor.util.retry.Retry
+import java.time.Duration
 import java.time.LocalDateTime
 
 
@@ -59,6 +65,48 @@ class RiotAPI(private val webClient: WebClient)
     }
 
     private val platform = PlatformRoutes.KR.route
+
+    // TODO - Still Working ON
+    fun getMatchByMatchIdWithBlocking(matchId: Long) :Mono<MatchDTO> =
+        webClient.get()
+            .uri("https://$platform$match_by_matchId$matchId")
+            .exchangeToMono { res ->
+                if (res.statusCode().is2xxSuccessful) {
+                    return@exchangeToMono res.bodyToMono(MatchDTO::class.java)
+                }
+                else if (res.statusCode().is5xxServerError) {
+                    logger.warn("[ MatchDetail API ] 504 GatewayTimeOut Error Received")
+                }
+                return@exchangeToMono Mono.empty<MatchDTO>()
+            }
+
+    // TODO - Still Working ON
+    fun getMatchListWithIndexRange100WithBlocking(encryptedAccountId: String, beginIndex: Int) :Mono<MatchlistDTO> =
+        webClient.get()
+            .uri("https://$platform$match_by_accountId$encryptedAccountId?beginIndex=$beginIndex&endIndex=${beginIndex + 99}")
+            .exchangeToMono { res ->
+                if (res.statusCode().is2xxSuccessful) {
+                    return@exchangeToMono res.bodyToMono(MatchlistDTO::class.java)
+                }
+                else if (res.statusCode().is5xxServerError) {
+                    logger.warn("[ MatchList API ] 504 GatewayTimeOut Error Received")
+                }
+                return@exchangeToMono Mono.empty<MatchlistDTO>()
+            }
+
+    // TODO - Still Working ON
+    fun getSummonerByAccountIdWithBlocking(encryptedAccountId: String) :Mono<SummonerDTO> =
+        webClient.get()
+            .uri("https://$platform$summoner_by_account$encryptedAccountId")
+            .exchangeToMono { res ->
+                if (res.statusCode().is2xxSuccessful) {
+                    return@exchangeToMono res.bodyToMono(SummonerDTO::class.java)
+                }
+                else if (res.statusCode().is5xxServerError) {
+                    logger.warn("[ Summoner API ] 504 GatewayTimeOut Error Received")
+                }
+                return@exchangeToMono Mono.empty<SummonerDTO>()
+            }
 
     override fun getMatchById(matchId: Long): Mono<MatchDTO>? =
         webClient.get()

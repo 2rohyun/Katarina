@@ -9,6 +9,17 @@ import org.springframework.http.MediaType
 import org.springframework.web.reactive.function.client.ExchangeFilterFunction
 import org.springframework.web.reactive.function.client.WebClient
 import reactor.core.publisher.Mono
+import org.springframework.http.client.reactive.ReactorClientHttpConnector
+
+import org.springframework.http.client.reactive.ClientHttpConnector
+
+import java.util.concurrent.TimeUnit
+
+import io.netty.handler.timeout.ReadTimeoutHandler
+
+import io.netty.channel.ChannelOption
+import reactor.netty.http.client.HttpClient
+
 
 @Configuration
 class WebClientConfig {

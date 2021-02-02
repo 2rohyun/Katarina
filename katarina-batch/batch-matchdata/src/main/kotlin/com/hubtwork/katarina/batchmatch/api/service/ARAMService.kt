@@ -14,6 +14,9 @@ class ARAMService(private val repository: ARAMRepository) {
     fun getMatchByMatchId(matchId: Long): ARAM? =
         repository.findByIdOrNull(matchId)
 
+    fun getAllCount(): Int =
+        repository.findAll().size
+
     fun update() {
         TODO("Not yet implemented")
     }

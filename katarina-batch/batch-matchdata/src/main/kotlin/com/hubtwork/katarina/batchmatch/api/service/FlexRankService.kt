@@ -13,6 +13,9 @@ class FlexRankService(private val repository: FlexRankRepository) {
     fun getMatchByMatchId(matchId: Long): FlexRank? =
         repository.findByIdOrNull(matchId)
 
+    fun getAllCount(): Int =
+        repository.findAll().size
+
     fun update() {
         TODO("Not yet implemented")
     }

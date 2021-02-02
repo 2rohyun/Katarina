@@ -146,4 +146,19 @@ class MatcherService ( private val soloRank: SoloRankService,
         logger.info("[ Notice ] Match Scanning for All Match DB")
         return soloRank.getFirstMatchForTest()
     }
+
+    fun getAllMatchCountEachInDB() {
+        val solo = soloRank.getAllCount()
+        val flex = flexRank.getAllCount()
+        val normal = normalMatch.getAllCount()
+        val event = eventMatch.getAllCount()
+        val aram = aram.getAllCount()
+
+        println("솔랭 : $solo")
+        println("자랭 : $flex")
+        println("일반 : $normal")
+        println("이벤트 : $event")
+        println("칼바람 : $aram")
+
+    }
 }

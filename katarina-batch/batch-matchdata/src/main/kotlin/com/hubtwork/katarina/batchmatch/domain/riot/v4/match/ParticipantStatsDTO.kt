@@ -167,8 +167,12 @@ data class ParticipantStatsDTO(
 
     fun getPerks(): Perk = Perk(perkPrimaryStyle, perkSubStyle, perk0, perk1, perk2, perk3, perk4, perk5)
 
-    private fun calcKDA(): Double =
-        ((100 * ((kills.toDouble() + assists) / deaths)).roundToInt().toDouble())/100
+    private fun calcKDA(): Double {
+        return if (deaths != 0)
+            ((100 * ((kills.toDouble() + assists) / deaths)).roundToInt().toDouble())/100
+        else
+            (kills + assists).toDouble()
+    }
 
     fun getKDA() = KDA(kills, deaths, assists, calcKDA())
 

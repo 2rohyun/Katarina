@@ -14,6 +14,9 @@ class EventMatchService(private val repository: EventMatchRepository) {
     fun getMatchByMatchId(matchId: Long): EventMatch? =
         repository.findByIdOrNull(matchId)
 
+    fun getAllCount(): Int =
+        repository.findAll().size
+
     fun update() {
         TODO("Not yet implemented")
     }

@@ -1,4 +1,4 @@
-package com.hubtwork.katarinaapi.dto.riotapi.statics
+package com.hubtwork.katarina.batchmatch.domain.statics
 
 
 enum class Queue(val queueId: Int, val tag: String) {

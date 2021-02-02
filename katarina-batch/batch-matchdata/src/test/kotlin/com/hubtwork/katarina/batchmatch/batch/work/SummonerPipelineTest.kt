@@ -96,22 +96,63 @@ class SummonerPipelineTest {
         logger.info("-------- Loaded Matches --------")
         val matchUserCount = summonerPipeLine.getAllUserMatchDataCount()
         val summonerCount = summonerPipeLine.getAllSummonerDataCount()
-        val solo_match = matcherService.readFirstMatchesFromDBForTest()
+        val soloMatch = matcherService.readFirstMatchesFromDBForTest()
 
         logger.info("Inserted MatchUser Data : $matchUserCount")
         logger.info("Inserted Summoner Data : $summonerCount")
-        if (solo_match != null ) {
-            println(" 매치아이디 : ${solo_match.id}")
-            println(" 시즌 : ${solo_match.season}")
-            println(" ${matcherService.matchReader(solo_match.id, 420)}")
+        if (soloMatch != null ) {
+            println(" 매치아이디 : ${soloMatch.id}")
+            println(" 시즌 : ${soloMatch.season}")
+            println(" ${matcherService.matchReader(soloMatch.id, 420)}")
         }
 
         summonerPipeLine.getAllSummonerData().forEach {
             println(it.summonerName)
         }
 
+        summonerPipeLine.pipelining()
+        logger.info("-------- Loaded Matches --------")
+        val matchUserCount2 = summonerPipeLine.getAllUserMatchDataCount()
+        val summonerCount2 = summonerPipeLine.getAllSummonerDataCount()
+        val soloMatch2 = matcherService.readFirstMatchesFromDBForTest()
+
+        logger.info("Inserted MatchUser Data : $matchUserCount2")
+        logger.info("Inserted Summoner Data : $summonerCount2")
+
+        if (soloMatch2 != null ) {
+            println(" 매치아이디 : ${soloMatch2.id}")
+            println(" 시즌 : ${soloMatch2.season}")
+            println(" ${matcherService.matchReader(soloMatch2.id, 420)}")
+        }
+
         assertEquals(true, summonerCount > 0)
         assertEquals(true, matchUserCount > 0)
+    }
+
+    @Test
+    @Transactional
+    fun pipeliningRepeatedlyTest() {
+        summonerPipeLine.pipelining()
+        val matchUserCount = summonerPipeLine.getAllUserMatchDataCount()
+        val summonerCount = summonerPipeLine.getAllSummonerDataCount()
+
+        summonerPipeLine.readSummonersFromDBForTest()
+        matcherService.getAllMatchCountEachInDB()
+
+        summonerPipeLine.pipelining()
+
+        val matchUserCount2 = summonerPipeLine.getAllUserMatchDataCount()
+        val summonerCount2 = summonerPipeLine.getAllSummonerDataCount()
+
+        summonerPipeLine.readSummonersFromDBForTest()
+        matcherService.getAllMatchCountEachInDB()
+
+        println("first matchCount: $matchUserCount")
+        println("first userCount: $summonerCount")
+
+        println("second matchCount: $matchUserCount2")
+        println("second userCount: $summonerCount2")
+
     }
 
 }

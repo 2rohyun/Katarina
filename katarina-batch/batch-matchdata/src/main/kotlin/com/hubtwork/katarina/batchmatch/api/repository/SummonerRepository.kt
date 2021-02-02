@@ -15,6 +15,12 @@ interface SummonerRepository: JpaRepository<Summoner, Int>
     @Query("select count(*) from summoner where accountId= :accountId", nativeQuery = true)
     fun checkSummonerExist(@Param("accountId")accountId: String) : Int
 
+    @Query("select * from summoner where accountId= :accountId", nativeQuery = true)
+    fun getSummonerAlreadyExists(@Param("accountId")accountId: String) : Summoner
+
     @Query("select * from summoner order by last_scanned limit 100", nativeQuery = true)
     fun getSummonersToFindMatch() :List<Summoner>
+
+    @Query("select * from summoner order by last_scanned limit 1", nativeQuery = true)
+    fun getFirstSummonerForTest() :Summoner
 }
