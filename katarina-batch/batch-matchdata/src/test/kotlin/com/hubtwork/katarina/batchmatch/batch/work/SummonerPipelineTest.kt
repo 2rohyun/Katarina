@@ -61,9 +61,9 @@ class SummonerPipelineTest {
     // work
     @Test
     fun loadMatchesFromAPI() {
-        // MIDKlNG's accountId
+        // 이로's accountId
         logger.info("-------- Load MIDKlNG's accountID --------")
-        val accountId = "w3F3IyhCmuT1DRLvkYc6bVKVMWbiMMZhuBnmc0QQTQ_zzwQ"
+        val accountId = "yYWOOuEqQOgAozQCxuAt4vE_eYTSX4uVitPNYtLstram"
 
         logger.info("-------- Get MatchList From API ... --------")
         val matchLists = summonerPipeLine.getSummonerMatchListFromAPI(accountId, setOf())
@@ -75,12 +75,12 @@ class SummonerPipelineTest {
     }
 
     @Test
-    @Transactional
+    //@Transactional
     fun loadMatchesFromApiAndInsertMatchDataOnDB() {
 
-        // MIDKlNG's accountId
+        // 이로현's accountId
         logger.info("-------- Load MIDKlNG's accountID --------")
-        val accountId = "w3F3IyhCmuT1DRLvkYc6bVKVMWbiMMZhuBnmc0QQTQ_zzwQ"
+        val accountId = "yYWOOuEqQOgAozQCxuAt4vE_eYTSX4uVitPNYtLstram"
 
         logger.info("-------- Get MatchList From API ... --------")
         val matchLists = summonerPipeLine.getSummonerMatchListFromAPI(accountId, setOf()).subList(0, 10)
