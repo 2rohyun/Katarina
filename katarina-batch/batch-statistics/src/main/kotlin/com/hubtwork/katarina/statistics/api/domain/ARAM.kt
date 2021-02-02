@@ -1,35 +1,42 @@
 package com.hubtwork.katarina.statistics.api.domain
 
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.Id
-import javax.persistence.Table
+import javax.persistence.*
 
 @Entity
 @Table(name = "ARAM")
+@IdClass(ComposableKey::class)
 class ARAM(
-    matchId: Long,
+    accountId: String,
+    championId: Int,
     kill: Int,
     death: Int,
     assist: Int,
-    gameResult: Boolean,
+    gameAllCount: Int,
+    gameWinCount: Int,
     season: Int
 ) {
     @Id
-    @Column(name = "match_id")
-    var matchId = matchId
+    @Column(name = "account_id")
+    var accountId = accountId
 
-    @Column(name = "kill")
+    @Id
+    @Column(name = "champion_id")
+    var championId = championId
+
+    @Column(name = "kill_count")
     var kill = kill
 
-    @Column(name = "death")
+    @Column(name = "death_count")
     var death = death
 
-    @Column(name = "assist")
+    @Column(name = "assist_count")
     var assist = assist
 
-    @Column(name = "game_result")
-    var gameResult = gameResult
+    @Column(name = "game_all_count")
+    var gameAllCount = gameAllCount
+
+    @Column(name = "game_win_count")
+    var gameWinCount = gameWinCount
 
     @Column(name = "season")
     var season = season

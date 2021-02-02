@@ -1,10 +1,7 @@
 
 riot:
-<<<<<<< HEAD
   api-key: "RGAPI-cc2ed2de-c129-49de-a84c-02d0bccbdbf5"
-=======
-  api-key: "RGAPI-e546c7d6-107f-4b5e-84f1-8d1e9d5293ed"
->>>>>>> upstream/master
+
 
 logging:
   level:
