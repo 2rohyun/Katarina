@@ -61,7 +61,7 @@ class SummonerPipelineTest {
     // work
     @Test
     fun loadMatchesFromAPI() {
-        // 이로's accountId
+        // 이로현's accountId
         logger.info("-------- Load MIDKlNG's accountID --------")
         val accountId = "yYWOOuEqQOgAozQCxuAt4vE_eYTSX4uVitPNYtLstram"
 
