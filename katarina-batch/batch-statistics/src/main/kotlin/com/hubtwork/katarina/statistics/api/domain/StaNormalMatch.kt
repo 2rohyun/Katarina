@@ -1,11 +1,11 @@
 package com.hubtwork.katarina.statistics.api.domain
-
 import javax.persistence.*
 
+
 @Entity
-@Table(name = "event_match")
-@IdClass(ComposableKey::class)
-class EventMatch(
+@Table(name = "STA_normal_match")
+@IdClass(StaComposableKey::class)
+class StaNormalMatch(
     accountId: String,
     championId: Int,
     kill: Int,

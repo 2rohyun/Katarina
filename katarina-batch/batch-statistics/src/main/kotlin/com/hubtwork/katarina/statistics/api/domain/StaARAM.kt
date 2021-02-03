@@ -3,9 +3,9 @@ package com.hubtwork.katarina.statistics.api.domain
 import javax.persistence.*
 
 @Entity
-@Table(name = "ARAM")
-@IdClass(ComposableKey::class)
-class ARAM(
+@Table(name = "STA_ARAM")
+@IdClass(StaComposableKey::class)
+class StaARAM(
     accountId: String,
     championId: Int,
     kill: Int,

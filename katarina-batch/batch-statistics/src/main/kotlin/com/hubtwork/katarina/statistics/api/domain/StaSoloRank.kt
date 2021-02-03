@@ -3,9 +3,9 @@ package com.hubtwork.katarina.statistics.api.domain
 import javax.persistence.*
 
 @Entity
-@Table(name = "solo_rank")
-@IdClass(ComposableKey::class)
-class SoloRank(
+@Table(name = "STA_solo_rank")
+@IdClass(StaComposableKey::class)
+class StaSoloRank(
     accountId: String,
     championId: Int,
     kill: Int,

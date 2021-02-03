@@ -3,9 +3,9 @@ package com.hubtwork.katarina.statistics.api.domain
 import javax.persistence.*
 
 @Entity
-@Table(name = "flex_rank")
-@IdClass(ComposableKey::class)
-class FlexRank(
+@Table(name = "STA_flex_rank")
+@IdClass(StaComposableKey::class)
+class StaFlexRank(
     accountId: String,
     championId: Int,
     kill: Int,

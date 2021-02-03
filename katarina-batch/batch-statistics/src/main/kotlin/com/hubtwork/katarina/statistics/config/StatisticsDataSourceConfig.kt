@@ -17,15 +17,14 @@ import javax.sql.DataSource
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
-    entityManagerFactoryRef = "entityManagerFactory",
-    transactionManagerRef = "transactionManager",
+    entityManagerFactoryRef = "statisticsEntityManagerFactory",
+    transactionManagerRef = "statisticsTransactionManager",
     basePackages = ["com.hubtwork.katarina.statistics.api"]
 )
-class JPAConfig {
-    @Primary
+class StatisticsDataSourceConfig {
     @Bean
     @ConfigurationProperties("spring.datasource.statistics")
-    fun dataSource(): DataSource {
+    fun statisticsDataSource(): DataSource {
         val dataSource = DataSourceBuilder.create().type(HikariDataSource::class.java).build()
 
         // UTF-8 :: 한글 문자열 처리
@@ -34,21 +33,19 @@ class JPAConfig {
         return dataSource
     }
 
-    @Primary
     @Bean
-    fun entityManagerFactory(
+    fun statisticsEntityManagerFactory(
         builder: EntityManagerFactoryBuilder
     ): LocalContainerEntityManagerFactoryBean {
         return builder
-            .dataSource(this.dataSource())
+            .dataSource(this.statisticsDataSource())
             .packages("com.hubtwork.katarina.statistics.api")
             .persistenceUnit("katarina")
             .build()
     }
 
-    @Primary
     @Bean
-    fun transactionManager(builder: EntityManagerFactoryBuilder): JpaTransactionManager {
-        return JpaTransactionManager(entityManagerFactory(builder).`object`!!)
+    fun statisticsTransactionManager(builder: EntityManagerFactoryBuilder): JpaTransactionManager {
+        return JpaTransactionManager(statisticsEntityManagerFactory(builder).`object`!!)
     }
 }
