@@ -38,6 +38,7 @@ class StaNormalMatch(
     @Column(name = "game_win_count")
     var gameWinCount = gameWinCount
 
+    @Id
     @Column(name = "season")
     var season = season
 
