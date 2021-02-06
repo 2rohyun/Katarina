@@ -62,7 +62,7 @@ class SummonerPipelineTest {
     @Test
     fun loadMatchesFromAPI() {
         // 이로현's accountId
-        logger.info("-------- Load MIDKlNG's accountID --------")
+        logger.info("-------- Load 이로현's accountID --------")
         val accountId = "yYWOOuEqQOgAozQCxuAt4vE_eYTSX4uVitPNYtLstram"
 
         logger.info("-------- Get MatchList From API ... --------")
@@ -79,7 +79,7 @@ class SummonerPipelineTest {
     fun loadMatchesFromApiAndInsertMatchDataOnDB() {
 
         // 이로현's accountId
-        logger.info("-------- Load MIDKlNG's accountID --------")
+        logger.info("-------- Load 이로현's accountID --------")
         val accountId = "yYWOOuEqQOgAozQCxuAt4vE_eYTSX4uVitPNYtLstram"
 
         logger.info("-------- Get MatchList From API ... --------")

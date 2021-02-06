@@ -10,4 +10,5 @@ class StatisticsApplicationTests {
     fun contextLoads() {
     }
 
+
 }

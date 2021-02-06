@@ -19,7 +19,7 @@ import javax.sql.DataSource
 @EnableJpaRepositories(
     entityManagerFactoryRef = "matcherEntityManagerFactory",
     transactionManagerRef = "matcherTransactionManager",
-    basePackages = ["com.hubtwork.katarina.batchmatch.api"]
+    basePackages = ["com.hubtwork.katarina.statistics.matcherapi"]
 )
 class MatcherDataSourceConfig {
     @Primary
@@ -41,7 +41,7 @@ class MatcherDataSourceConfig {
     ): LocalContainerEntityManagerFactoryBean {
         return builder
             .dataSource(this.matcherDataSource())
-            .packages("com.hubtwork.katarina.batchmatch.api")
+            .packages("com.hubtwork.katarina.statistics")
             .persistenceUnit("katarina")
             .build()
     }

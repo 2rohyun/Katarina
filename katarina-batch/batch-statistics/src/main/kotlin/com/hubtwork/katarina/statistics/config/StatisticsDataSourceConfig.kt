@@ -6,7 +6,6 @@ import org.springframework.boot.jdbc.DataSourceBuilder
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.context.annotation.Primary
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 import org.springframework.orm.jpa.JpaTransactionManager
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean
@@ -19,7 +18,7 @@ import javax.sql.DataSource
 @EnableJpaRepositories(
     entityManagerFactoryRef = "statisticsEntityManagerFactory",
     transactionManagerRef = "statisticsTransactionManager",
-    basePackages = ["com.hubtwork.katarina.statistics.api"]
+    basePackages = ["com.hubtwork.katarina.statistics.statisticsapi"]
 )
 class StatisticsDataSourceConfig {
     @Bean
@@ -39,7 +38,7 @@ class StatisticsDataSourceConfig {
     ): LocalContainerEntityManagerFactoryBean {
         return builder
             .dataSource(this.statisticsDataSource())
-            .packages("com.hubtwork.katarina.statistics.api")
+            .packages("com.hubtwork.katarina.statistics")
             .persistenceUnit("katarina")
             .build()
     }
