@@ -7,9 +7,9 @@ import javax.persistence.*
 class StaEventMatch(
     accountId: String,
     championId: Int,
-    kill: Int,
-    death: Int,
-    assist: Int,
+    kill: Float,
+    death: Float,
+    assist: Float,
     gameAllCount: Int,
     gameWinCount: Int,
     season: Int?,
@@ -19,7 +19,7 @@ class StaEventMatch(
     @Id
     @Column(name = "event_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var eventMatchId : Int = 0
+    var eventMatchId : Long = 0
 
     @Column(name = "account_id")
     var accountId = accountId

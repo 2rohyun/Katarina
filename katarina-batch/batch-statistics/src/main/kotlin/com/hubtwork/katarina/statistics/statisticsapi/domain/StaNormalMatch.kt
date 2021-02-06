@@ -7,9 +7,9 @@ import javax.persistence.*
 class StaNormalMatch(
     accountId: String,
     championId: Int,
-    kill: Int,
-    death: Int,
-    assist: Int,
+    kill: Float,
+    death: Float,
+    assist: Float,
     gameAllCount: Int,
     gameWinCount: Int,
     season: Int?,

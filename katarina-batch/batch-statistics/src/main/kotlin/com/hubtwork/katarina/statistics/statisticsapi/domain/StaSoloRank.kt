@@ -7,9 +7,9 @@ import javax.persistence.*
 class StaSoloRank(
     accountId: String,
     championId: Int,
-    kill: Int,
-    death: Int,
-    assist: Int,
+    kill: Float,
+    death: Float,
+    assist: Float,
     gameAllCount: Int,
     gameWinCount: Int,
     season: Int?,
@@ -18,7 +18,7 @@ class StaSoloRank(
     @Id
     @Column(name = "solo_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var soloRankId : Int = 0
+    var soloRankId : Long = 0
 
     @Column(name = "account_id")
     var accountId = accountId

@@ -43,9 +43,4 @@ class StatisticsDBTest: StatisticsApplicationTests() {
                 }
             }
         }
-
-    @Test
-    fun insertNormalMatchTest(){
-
-    }
 }

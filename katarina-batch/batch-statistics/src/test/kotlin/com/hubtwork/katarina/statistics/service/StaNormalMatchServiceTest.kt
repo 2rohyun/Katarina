@@ -1,14 +1,18 @@
-package com.hubtwork.katarina.statistics.statisticsapi.service
+package com.hubtwork.katarina.statistics.service
 
+import com.hubtwork.katarina.statistics.StatisticsApplicationTests
 import com.hubtwork.katarina.statistics.statisticsapi.domain.StaNormalMatch
 import com.hubtwork.katarina.statistics.statisticsapi.repository.StaNormalMatchRepository
-import org.springframework.stereotype.Service
+import org.junit.jupiter.api.Test
+import org.springframework.beans.factory.annotation.Autowired
 
-@Service
-class StaNormalMatchService(private val staNormalMatchRepository: StaNormalMatchRepository) {
+class StaNormalMatchServiceTest: StatisticsApplicationTests() {
+    @Autowired
+    lateinit var staNormalMatchRepository: StaNormalMatchRepository
 
-    fun getKDAFromNormalMatch(summonerName: String, season: Int): MutableList<Any> {
-        val uniqueChampId: MutableList<Int> = staNormalMatchRepository.getUniqueChampionIdBySummonerNameAndSeason(summonerName,season)
+    @Test
+    fun getKDAFromNormalMatchTest(){
+        val uniqueChampId: MutableList<Int> = staNormalMatchRepository.getUniqueChampionIdBySummonerNameAndSeason("이로현",13)
 
         var wholeList = mutableListOf<Any>()
 
@@ -31,33 +35,38 @@ class StaNormalMatchService(private val staNormalMatchRepository: StaNormalMatch
 
             kdaAvg = if(deathAvg != 0F) {
                 kotlin.math.round(((killAvg + assistAvg / deathAvg) / kda.size) * 100) / 100
-            }else{ "Perfect" }
+            }else{
+                "Perfect"
+            }
+            //println("챔피언 id : $champId, 킬 평균 : $killAvg, 데스 평균 : $deathAvg, 어시스트 평균 : $assistAvg, KDA 평균 : $kdaAvg")
 
             var kdaList = mutableListOf(champId,killAvg,deathAvg,assistAvg,kdaAvg)
             wholeList.add(kdaList)
         }
-        return wholeList
+        println(wholeList)
     }
 
-    fun getWinRateFromNormalMatch(summonerName: String, season: Int): MutableList<Any> {
-        val uniqueChampId: MutableList<Int> = staNormalMatchRepository.getUniqueChampionIdBySummonerNameAndSeason(summonerName,season)
+    @Test
+    fun getWinRateFromNormalMatchTest(){
+        val uniqueChampId: MutableList<Int> = staNormalMatchRepository.getUniqueChampionIdBySummonerNameAndSeason("이로현",13)
 
         var wholeList = mutableListOf<Any>()
 
         uniqueChampId.forEach { champId->
             var winSum = 0f
             var allSum = 0f
+            var loseSum = 0f
             val result: MutableList<StaNormalMatch> = staNormalMatchRepository.getAllByChampionId(champId)
 
             result.forEach {
                 winSum += it.gameWinCount
                 allSum += it.gameAllCount
             }
-            val loseSum: Float = allSum - winSum
+            loseSum = allSum - winSum
             val winRate: Float = kotlin.math.round((((winSum / allSum) * 100))*100) / 100
             var resultList = mutableListOf(champId,allSum.toInt(),winSum.toInt(),loseSum.toInt(),winRate)
             wholeList.add(resultList)
         }
-        return wholeList
+        println(wholeList)
     }
 }

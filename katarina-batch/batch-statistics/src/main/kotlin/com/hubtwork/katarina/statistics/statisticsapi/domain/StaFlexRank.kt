@@ -7,9 +7,9 @@ import javax.persistence.*
 class StaFlexRank(
     accountId: String,
     championId: Int,
-    kill: Int,
-    death: Int,
-    assist: Int,
+    kill: Float,
+    death: Float,
+    assist: Float,
     gameAllCount: Int,
     gameWinCount: Int,
     season: Int?,
@@ -18,7 +18,7 @@ class StaFlexRank(
     @Id
     @Column(name = "flex_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var flexRankId : Int = 0
+    var flexRankId : Long = 0
 
     @Column(name = "account_id")
     var accountId = accountId

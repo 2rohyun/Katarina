@@ -7,9 +7,9 @@ import javax.persistence.*
 class StaARAM(
     accountId: String,
     championId: Int,
-    kill: Int,
-    death: Int,
-    assist: Int,
+    kill: Float,
+    death: Float,
+    assist: Float,
     gameAllCount: Int,
     gameWinCount: Int,
     season: Int?,
@@ -19,7 +19,7 @@ class StaARAM(
     @Id
     @Column(name = "ARAM_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var ARAMId : Int = 0
+    var ARAMId : Long = 0
 
     @Column(name = "account_id")
     var accountId = accountId
