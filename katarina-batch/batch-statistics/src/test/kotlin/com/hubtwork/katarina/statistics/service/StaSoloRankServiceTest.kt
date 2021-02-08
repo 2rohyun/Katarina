@@ -2,17 +2,19 @@ package com.hubtwork.katarina.statistics.service
 
 import com.hubtwork.katarina.statistics.StatisticsApplicationTests
 import com.hubtwork.katarina.statistics.statisticsapi.domain.StaNormalMatch
+import com.hubtwork.katarina.statistics.statisticsapi.domain.StaSoloRank
 import com.hubtwork.katarina.statistics.statisticsapi.repository.StaNormalMatchRepository
+import com.hubtwork.katarina.statistics.statisticsapi.repository.StaSoloRankRepository
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 
-class StaNormalMatchServiceTest: StatisticsApplicationTests() {
+class StaSoloRankServiceTest: StatisticsApplicationTests() {
     @Autowired
-    lateinit var staNormalMatchRepository: StaNormalMatchRepository
+    lateinit var staSoloRankRepository: StaSoloRankRepository
 
     @Test
-    fun getKDAFromNormalMatchTest(){
-        val uniqueChampId: MutableList<Int> = staNormalMatchRepository.getUniqueChampionIdBySummonerNameAndSeason("이로현",13)
+    fun getKDAFromSoloRankTest(){
+        val uniqueChampId: MutableList<Int> = staSoloRankRepository.getUniqueChampionIdBySummonerNameAndSeason("이로현",13)
 
         var wholeList = mutableListOf<Any>()
 
@@ -21,7 +23,7 @@ class StaNormalMatchServiceTest: StatisticsApplicationTests() {
             var deathSum: Float = 0F
             var assistSum: Float = 0F
             var kdaAvg: Any = 0
-            val kda: MutableList<StaNormalMatch> = staNormalMatchRepository.getAllByChampionId(champId)
+            val kda: MutableList<StaSoloRank> = staSoloRankRepository.getAllByChampionId(champId)
 
             kda.forEach {
                 killSum += it.kill
@@ -48,8 +50,8 @@ class StaNormalMatchServiceTest: StatisticsApplicationTests() {
     }
 
     @Test
-    fun getWinRateFromNormalMatchTest(){
-        val uniqueChampId: MutableList<Int> = staNormalMatchRepository.getUniqueChampionIdBySummonerNameAndSeason("이로현",13)
+    fun getWinRateFromSoloRankTest(){
+        val uniqueChampId: MutableList<Int> = staSoloRankRepository.getUniqueChampionIdBySummonerNameAndSeason("이로현",13)
 
         var wholeList = mutableListOf<Any>()
 
@@ -57,7 +59,7 @@ class StaNormalMatchServiceTest: StatisticsApplicationTests() {
             var winSum = 0f
             var allSum = 0f
             var loseSum = 0f
-            val result: MutableList<StaNormalMatch> = staNormalMatchRepository.getAllByChampionId(champId)
+            val result: MutableList<StaSoloRank> = staSoloRankRepository.getAllByChampionId(champId)
 
             result.forEach {
                 winSum += it.gameWinCount
