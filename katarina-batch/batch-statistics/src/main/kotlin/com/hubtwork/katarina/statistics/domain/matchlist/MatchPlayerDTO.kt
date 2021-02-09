@@ -20,6 +20,7 @@ data class MatchPlayerDTO(
 
     // 챔피언 정보
     var champion: Int,
+
     // 스펠 정보
     var spell1: Int,
     var spell2: Int,

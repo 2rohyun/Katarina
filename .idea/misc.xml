@@ -8,4 +8,5 @@
     <file type="web" url="file://$PROJECT_DIR$/katarina-cdn" />
     <file type="web" url="file://$PROJECT_DIR$/katarina-web" />
   </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_15" default="false" project-jdk-name="openjdk-15" project-jdk-type="JavaSDK" />
 </project>

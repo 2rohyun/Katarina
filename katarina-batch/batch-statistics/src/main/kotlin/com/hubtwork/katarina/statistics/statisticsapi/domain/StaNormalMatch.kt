@@ -13,7 +13,8 @@ class StaNormalMatch(
     gameAllCount: Int,
     gameWinCount: Int,
     season: Int?,
-    summonerName: String
+    summonerName: String,
+    lane: String
 ) {
 
     @Id
@@ -47,5 +48,8 @@ class StaNormalMatch(
 
     @Column(name = "summoner_name")
     var summonerName = summonerName
+
+    @Column(name = "lane")
+    var lane = lane
 
 }

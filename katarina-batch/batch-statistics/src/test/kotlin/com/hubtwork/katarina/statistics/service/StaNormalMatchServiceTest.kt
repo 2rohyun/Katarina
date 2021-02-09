@@ -12,7 +12,7 @@ class StaNormalMatchServiceTest: StatisticsApplicationTests() {
 
     @Test
     fun getKDAFromNormalMatchTest(){
-        val uniqueChampId: MutableList<Int> = staNormalMatchRepository.getUniqueChampionIdBySummonerNameAndSeason("이로현",13)
+        val uniqueChampId: MutableList<Int> = staNormalMatchRepository.getUniqueChampionIdBySummonerNameAndSeason("부산대표간지남",13)
 
         var wholeList = mutableListOf<Any>()
 
@@ -38,7 +38,7 @@ class StaNormalMatchServiceTest: StatisticsApplicationTests() {
             }else{
                 "Perfect"
             }
-            //println("챔피언 id : $champId, 킬 평균 : $killAvg, 데스 평균 : $deathAvg, 어시스트 평균 : $assistAvg, KDA 평균 : $kdaAvg")
+            println("챔피언 id : $champId, 킬 평균 : $killAvg, 데스 평균 : $deathAvg, 어시스트 평균 : $assistAvg, KDA 평균 : $kdaAvg")
 
             var kdaList = mutableListOf(champId,killAvg,deathAvg,assistAvg,kdaAvg)
             wholeList.add(kdaList)
@@ -69,4 +69,5 @@ class StaNormalMatchServiceTest: StatisticsApplicationTests() {
         }
         println(wholeList)
     }
+
 }
