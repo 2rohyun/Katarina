@@ -13,10 +13,10 @@ class StaNormalMatchService(private val staNormalMatchRepository: StaNormalMatch
         var wholeList = mutableListOf<Any>()
 
         uniqueChampId.forEach { champId->
-            var killSum: Float = 0F
-            var deathSum: Float = 0F
-            var assistSum: Float = 0F
-            var kdaAvg: Any = 0
+            var killSum = 0F
+            var deathSum = 0F
+            var assistSum = 0F
+            var kdaAvg: Any
             val kda: MutableList<StaNormalMatch> = staNormalMatchRepository.getAllByChampionId(champId)
 
             kda.forEach {
@@ -60,4 +60,43 @@ class StaNormalMatchService(private val staNormalMatchRepository: StaNormalMatch
         }
         return wholeList
     }
+
+    fun getPreferencePositionFromNormalMatch(summonerName: String, season: Int): MutableList<Any> {
+        val position: MutableList<String> = staNormalMatchRepository.getLaneBySummonerName(summonerName,season)
+
+        var topCount = 0
+        var jugCount = 0
+        var midCount = 0
+        var adCount = 0
+        var supCount = 0
+
+        position.forEach { posi->
+            when(posi){
+                "TOP" -> topCount++
+                "JUNGLE" -> jugCount++
+                "MIDDLE" -> midCount++
+                "BOTTOM CARRY" -> adCount++
+                "BOTTOM SUPPORT" -> supCount++
+            }
+        }
+        val lane = hashMapOf(
+            "정글" to jugCount,
+            "미드" to midCount,
+            "원딜" to adCount,
+            "서폿" to supCount,
+            "탑" to topCount)
+
+        val result = lane.toList().sortedBy { (_, value) -> value}
+        println("포지션 별 플레이 횟수 : $result")
+
+        var all = mutableListOf<Any>()
+        all.add(result[4])
+        all.add(result[3])
+
+        return all
+    }
+
+
 }
+
+

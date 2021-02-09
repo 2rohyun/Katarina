@@ -16,4 +16,7 @@ interface StaNormalMatchRepository: JpaRepository<StaNormalMatch, Long> {
     @Query("select * from STA_normal_match where champion_id = :champion_id",nativeQuery = true)
     fun getAllByChampionId(@Param("champion_id")champion_id: Int): MutableList<StaNormalMatch>
 
+    @Query("select lane from STA_normal_match where summoner_name = :summoner_name and season = :season", nativeQuery = true)
+    fun getLaneBySummonerName(@Param("summoner_name")summoner_name: String, @Param("season")season: Int) : MutableList<String>
+
 }

@@ -14,6 +14,7 @@ class StaARAM(
     gameWinCount: Int,
     season: Int?,
     summonerName: String,
+    lane: String
 ) {
 
     @Id
@@ -47,5 +48,8 @@ class StaARAM(
 
     @Column(name = "summoner_name")
     var summonerName = summonerName
+
+    @Column(name = "lane")
+    var lane = lane
 
 }

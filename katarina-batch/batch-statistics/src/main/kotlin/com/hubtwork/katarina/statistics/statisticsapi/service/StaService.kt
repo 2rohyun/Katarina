@@ -38,6 +38,7 @@ class StaService(private val staSoloRankRepository: StaSoloRankRepository,
                 val assist: Int = it.kda.assist
                 val death: Int = it.kda.death
                 val kill: Int = it.kda.kill
+                val lane: String = it.lane
                 val gameAllCount: Int = 1
                 var gameWinCount: Int = 0
 
@@ -56,7 +57,8 @@ class StaService(private val staSoloRankRepository: StaSoloRankRepository,
                     gameAllCount,
                     gameWinCount,
                     season,
-                    summonerName
+                    summonerName,
+                    lane
                 )
                 val saved = staNormalMatchRepository.save(match)
                 logger.info("[ Normal match ] ${saved.summonerName} enrolled SuccessFull")
@@ -76,6 +78,7 @@ class StaService(private val staSoloRankRepository: StaSoloRankRepository,
                 val assist: Int = it.kda.assist
                 val death: Int = it.kda.death
                 val kill: Int = it.kda.kill
+                val lane: String = it.lane
                 val gameAllCount: Int = 1
                 var gameWinCount: Int = 0
 
@@ -94,7 +97,8 @@ class StaService(private val staSoloRankRepository: StaSoloRankRepository,
                     gameAllCount,
                     gameWinCount,
                     season,
-                    summonerName
+                    summonerName,
+                    lane
                 )
                 val saved = staSoloRankRepository.save(match)
                 logger.info("[ Solo Rank ] ${saved.summonerName} enrolled SuccessFull")
@@ -114,6 +118,7 @@ class StaService(private val staSoloRankRepository: StaSoloRankRepository,
                 val assist: Int = it.kda.assist
                 val death: Int = it.kda.death
                 val kill: Int = it.kda.kill
+                val lane: String = it.lane
                 val gameAllCount: Int = 1
                 var gameWinCount: Int = 0
 
@@ -132,7 +137,8 @@ class StaService(private val staSoloRankRepository: StaSoloRankRepository,
                     gameAllCount,
                     gameWinCount,
                     season,
-                    summonerName
+                    summonerName,
+                    lane
                 )
                 val saved = staFlexRankRepository.save(match)
                 logger.info("[ Flex Rank ] ${saved.summonerName} enrolled SuccessFull")
@@ -152,6 +158,7 @@ class StaService(private val staSoloRankRepository: StaSoloRankRepository,
                 val assist: Int = it.kda.assist
                 val death: Int = it.kda.death
                 val kill: Int = it.kda.kill
+                val lane: String = it.lane
                 val gameAllCount: Int = 1
                 var gameWinCount: Int = 0
 
@@ -170,7 +177,8 @@ class StaService(private val staSoloRankRepository: StaSoloRankRepository,
                     gameAllCount,
                     gameWinCount,
                     season,
-                    summonerName
+                    summonerName,
+                    lane
                 )
                 val saved = staARAMRepository.save(match)
                 logger.info("[ ARAM ] ${saved.summonerName} enrolled SuccessFull")
@@ -190,6 +198,7 @@ class StaService(private val staSoloRankRepository: StaSoloRankRepository,
                 val assist: Int = it.kda.assist
                 val death: Int = it.kda.death
                 val kill: Int = it.kda.kill
+                val lane: String = it.lane
                 val gameAllCount: Int = 1
                 var gameWinCount: Int = 0
 
@@ -208,7 +217,8 @@ class StaService(private val staSoloRankRepository: StaSoloRankRepository,
                     gameAllCount,
                     gameWinCount,
                     season,
-                    summonerName
+                    summonerName,
+                    lane
                 )
                 val saved = staEventMatchRepository.save(match)
                 logger.info("[ Event Match ] ${saved.summonerName} enrolled SuccessFull")
