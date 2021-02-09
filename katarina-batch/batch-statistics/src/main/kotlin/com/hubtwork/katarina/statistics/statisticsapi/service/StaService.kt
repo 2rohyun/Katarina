@@ -28,7 +28,6 @@ class StaService(private val staSoloRankRepository: StaSoloRankRepository,
     }
 
     fun insertNormalMatch(match: KatarinaMatchDTO?, targetAccount: String){
-
         val season: Int? = match?.seasonID
         val eachPlayer: List<MatchPlayerDTO>? = match?.players
 
@@ -42,28 +41,40 @@ class StaService(private val staSoloRankRepository: StaSoloRankRepository,
                 val gameAllCount: Int = 1
                 var gameWinCount: Int = 0
 
+                val summonerName: String = it.summonerName
+
                 if (it.win) {
                     gameWinCount += 1
                 }
 
-                val summonerName: String = it.summonerName
-
-                val match = StaNormalMatch(
-                    targetAccount,
-                    championId,
-                    kill.toFloat(),
-                    death.toFloat(),
-                    assist.toFloat(),
-                    gameAllCount,
-                    gameWinCount,
-                    season,
-                    summonerName,
-                    lane
-                )
-                val saved = staNormalMatchRepository.save(match)
-                logger.info("[ Normal match ] ${saved.summonerName} enrolled SuccessFull")
+                if(staNormalMatchRepository.checkExistedChampion(summonerName,season!!,championId, lane).size >= 1){
+                    staNormalMatchRepository.updateChampionInfo(
+                            summonerName,
+                            season!!,
+                            championId,
+                            kill.toFloat(),
+                            death.toFloat(),
+                            assist.toFloat(),
+                            gameWinCount,
+                            lane
+                    )
+                } else {
+                    val match = StaNormalMatch(
+                            targetAccount,
+                            championId,
+                            kill.toFloat(),
+                            death.toFloat(),
+                            assist.toFloat(),
+                            gameAllCount,
+                            gameWinCount,
+                            season,
+                            summonerName,
+                            lane
+                    )
+                    val saved = staNormalMatchRepository.save(match)
+                    logger.info("[ Normal match ] ${saved.summonerName} enrolled SuccessFull")
+                }
             }
-
         }
     }
 
@@ -242,6 +253,7 @@ class StaService(private val staSoloRankRepository: StaSoloRankRepository,
             }
         }
     }
+
 }
 
 

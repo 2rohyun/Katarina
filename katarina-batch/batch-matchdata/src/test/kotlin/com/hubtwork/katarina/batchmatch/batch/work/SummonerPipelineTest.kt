@@ -80,7 +80,7 @@ class SummonerPipelineTest {
 
         // 이로현's accountId
         logger.info("-------- Load 이로현's accountID --------")
-        val accountId = "yYWOOuEqQOgAozQCxuAt4vE_eYTSX4uVitPNYtLstram"
+        val accountId = "wzGWVnvYOOcKsUrTgvlTuuM7KEp1VWj8OtSYKFtCtvE"
 
         logger.info("-------- Get MatchList From API ... --------")
         val matchLists = summonerPipeLine.getSummonerMatchListFromAPI(accountId, setOf()).subList(0, 10)

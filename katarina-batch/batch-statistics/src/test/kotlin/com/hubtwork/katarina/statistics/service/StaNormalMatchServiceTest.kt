@@ -13,7 +13,7 @@ class StaNormalMatchServiceTest: StatisticsApplicationTests() {
 
     @Test
     fun getKDAFromNormalMatchTest(){
-        val uniqueChampId: MutableList<Int> = staNormalMatchRepository.getUniqueChampionIdBySummonerNameAndSeason("이로현",13)
+        val uniqueChampId: MutableList<Int> = staNormalMatchRepository.getUniqueChampionIdBySummonerNameAndSeason("부산대표간지남",13)
 
         var wholeList = mutableListOf<Any>()
 
@@ -39,7 +39,6 @@ class StaNormalMatchServiceTest: StatisticsApplicationTests() {
             }else{
                 "Perfect"
             }
-
             println("챔피언 id : $champId, 킬 평균 : $killAvg, 데스 평균 : $deathAvg, 어시스트 평균 : $assistAvg, KDA 평균 : $kdaAvg")
 
             var kdaList = mutableListOf(champId,killAvg,deathAvg,assistAvg,kdaAvg)
@@ -72,45 +71,4 @@ class StaNormalMatchServiceTest: StatisticsApplicationTests() {
         }
         println(wholeList)
     }
-
-    @Test
-    fun getPreferencePositionFromNormalMatchTest(){
-        val position: MutableList<String> = staNormalMatchRepository.getLaneBySummonerName("이로현",13)
-
-        var topCount = 0
-        var jugCount = 0
-        var midCount = 0
-        var adCount = 0
-        var supCount = 0
-
-        position.forEach { posi->
-            when(posi){
-                "TOP" -> topCount++
-                "JUNGLE" -> jugCount++
-                "MIDDLE" -> midCount++
-                "BOTTOM CARRY" -> adCount++
-                "BOTTOM SUPPORT" -> supCount++
-            }
-        }
-        val lane = hashMapOf(
-            "정글" to jugCount,
-            "미드" to midCount,
-            "원딜" to adCount,
-            "서폿" to supCount,
-            "탑" to topCount)
-
-        val result = lane.toList().sortedBy { (_, value) -> value}
-        println("포지션 별 플레이 횟수 : $result")
-
-        val firstLane = result[4]
-        val secondLane = result[3]
-
-        var all = mutableListOf<Any>()
-        all.add(firstLane)
-        all.add(secondLane)
-
-        println(all)
-    }
-
-
 }

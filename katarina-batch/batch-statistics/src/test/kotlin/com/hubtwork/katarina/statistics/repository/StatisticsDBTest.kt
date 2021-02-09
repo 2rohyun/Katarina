@@ -27,7 +27,7 @@ class StatisticsDBTest: StatisticsApplicationTests() {
     @Test
     fun insertStatisticsDBTest() {
         //target summoner's account id
-        val targetAccount: String = "yYWOOuEqQOgAozQCxuAt4vE_eYTSX4uVitPNYtLstram"
+        val targetAccount: String = "wzGWVnvYOOcKsUrTgvlTuuM7KEp1VWj8OtSYKFtCtvE"
 
         val matchAndQType: List<UserWithMatch> = userWithMatchRepository.getMatchesByAccountId(targetAccount)
         matchAndQType.forEach {
@@ -43,4 +43,6 @@ class StatisticsDBTest: StatisticsApplicationTests() {
                 }
             }
         }
+
+
 }
