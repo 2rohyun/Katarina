@@ -1,12 +1,20 @@
-package com.hubtwork.katarina.statistics.statisticsapi.service
+package com.hubtwork.katarina.statistics.service
 
+import com.hubtwork.katarina.statistics.StatisticsApplicationTests
+import com.hubtwork.katarina.statistics.statisticsapi.domain.StaARAM
 import com.hubtwork.katarina.statistics.statisticsapi.domain.StaEventMatch
-import com.hubtwork.katarina.statistics.statisticsapi.domain.StaFlexRank
+import com.hubtwork.katarina.statistics.statisticsapi.repository.StaARAMRepository
 import com.hubtwork.katarina.statistics.statisticsapi.repository.StaEventMatchRepository
+import org.junit.jupiter.api.Test
+import org.springframework.beans.factory.annotation.Autowired
 
-class StaEventMatchService(private val staEventMatchRepository: StaEventMatchRepository) {
-    fun getKDAFromEventMatch(summonerName: String, season: Int): MutableList<Any> {
-        val uniqueChampId: MutableList<Int> = staEventMatchRepository.getUniqueChampionIdBySummonerNameAndSeason(summonerName,season)
+class StaARAMServiceTest: StatisticsApplicationTests() {
+    @Autowired
+    lateinit var staARAMRepository: StaARAMRepository
+
+    @Test
+    fun getKDAFromARAMTest(){
+        val uniqueChampId: MutableList<Int> = staARAMRepository.getUniqueChampionIdBySummonerNameAndSeason("이로현",13)
 
         var wholeList = mutableListOf<Any>()
 
@@ -15,7 +23,7 @@ class StaEventMatchService(private val staEventMatchRepository: StaEventMatchRep
             var deathSum: Float = 0F
             var assistSum: Float = 0F
             var kdaAvg: Any = 0
-            val kda: MutableList<StaEventMatch> = staEventMatchRepository.getAllByChampionId(champId)
+            val kda: MutableList<StaARAM> = staARAMRepository.getAllByChampionId(champId)
 
             kda.forEach {
                 killSum += it.kill
@@ -29,33 +37,40 @@ class StaEventMatchService(private val staEventMatchRepository: StaEventMatchRep
 
             kdaAvg = if(deathAvg != 0F) {
                 kotlin.math.round(((killAvg + assistAvg / deathAvg) / kda.size) * 100) / 100
-            }else{ "Perfect" }
+            }else{
+                "Perfect"
+            }
+
+            println("챔피언 id : $champId, 킬 평균 : $killAvg, 데스 평균 : $deathAvg, 어시스트 평균 : $assistAvg, KDA 평균 : $kdaAvg")
 
             var kdaList = mutableListOf(champId,killAvg,deathAvg,assistAvg,kdaAvg)
             wholeList.add(kdaList)
         }
-        return wholeList
+        println(wholeList)
     }
 
-    fun getWinRateFromEventMatch(summonerName: String, season: Int): MutableList<Any> {
-        val uniqueChampId: MutableList<Int> = staEventMatchRepository.getUniqueChampionIdBySummonerNameAndSeason(summonerName,season)
+    @Test
+    fun getWinRateFromARAMTest(){
+        val uniqueChampId: MutableList<Int> = staARAMRepository.getUniqueChampionIdBySummonerNameAndSeason("이로현",13)
 
         var wholeList = mutableListOf<Any>()
 
         uniqueChampId.forEach { champId->
             var winSum = 0f
             var allSum = 0f
-            val result: MutableList<StaEventMatch> = staEventMatchRepository.getAllByChampionId(champId)
+            var loseSum = 0f
+            val result: MutableList<StaARAM> = staARAMRepository.getAllByChampionId(champId)
 
             result.forEach {
                 winSum += it.gameWinCount
                 allSum += it.gameAllCount
             }
-            val loseSum: Float = allSum - winSum
+            loseSum = allSum - winSum
             val winRate: Float = kotlin.math.round((((winSum / allSum) * 100))*100) / 100
+            println("챔피언 id : $champId, 총 경기 수 : ${allSum.toInt()}, 승리 : ${winSum.toInt()}, 패배 : ${loseSum.toInt()}, 승률 : $winRate%")
             var resultList = mutableListOf(champId,allSum.toInt(),winSum.toInt(),loseSum.toInt(),winRate)
             wholeList.add(resultList)
         }
-        return wholeList
+        println(wholeList)
     }
 }

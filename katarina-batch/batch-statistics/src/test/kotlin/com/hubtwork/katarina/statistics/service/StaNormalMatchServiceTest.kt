@@ -64,6 +64,7 @@ class StaNormalMatchServiceTest: StatisticsApplicationTests() {
             }
             loseSum = allSum - winSum
             val winRate: Float = kotlin.math.round((((winSum / allSum) * 100))*100) / 100
+            println("챔피언 id : $champId, 총 경기 수 : ${allSum.toInt()}, 승리 : ${winSum.toInt()}, 패배 : ${loseSum.toInt()}, 승률 : $winRate%")
             var resultList = mutableListOf(champId,allSum.toInt(),winSum.toInt(),loseSum.toInt(),winRate)
             wholeList.add(resultList)
         }

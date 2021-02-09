@@ -1,13 +1,20 @@
-package com.hubtwork.katarina.statistics.statisticsapi.service
+package com.hubtwork.katarina.statistics.service
 
+import com.hubtwork.katarina.statistics.StatisticsApplicationTests
 import com.hubtwork.katarina.statistics.statisticsapi.domain.StaFlexRank
 import com.hubtwork.katarina.statistics.statisticsapi.domain.StaSoloRank
 import com.hubtwork.katarina.statistics.statisticsapi.repository.StaFlexRankRepository
+import com.hubtwork.katarina.statistics.statisticsapi.repository.StaSoloRankRepository
+import org.junit.jupiter.api.Test
+import org.springframework.beans.factory.annotation.Autowired
 
-class StaFlexRankService(private val staFlexRankRepository: StaFlexRankRepository) {
+class StaFlexRankServiceTest: StatisticsApplicationTests() {
+    @Autowired
+    lateinit var staFlexRankRepository: StaFlexRankRepository
 
-    fun getKDAFromFlexRank(summonerName: String, season: Int): MutableList<Any> {
-        val uniqueChampId: MutableList<Int> = staFlexRankRepository.getUniqueChampionIdBySummonerNameAndSeason(summonerName,season)
+    @Test
+    fun getKDAFromFlexRankTest(){
+        val uniqueChampId: MutableList<Int> = staFlexRankRepository.getUniqueChampionIdBySummonerNameAndSeason("이로현",13)
 
         var wholeList = mutableListOf<Any>()
 
@@ -30,33 +37,40 @@ class StaFlexRankService(private val staFlexRankRepository: StaFlexRankRepositor
 
             kdaAvg = if(deathAvg != 0F) {
                 kotlin.math.round(((killAvg + assistAvg / deathAvg) / kda.size) * 100) / 100
-            }else{ "Perfect" }
+            }else{
+                "Perfect"
+            }
+
+            println("챔피언 id : $champId, 킬 평균 : $killAvg, 데스 평균 : $deathAvg, 어시스트 평균 : $assistAvg, KDA 평균 : $kdaAvg")
 
             var kdaList = mutableListOf(champId,killAvg,deathAvg,assistAvg,kdaAvg)
             wholeList.add(kdaList)
         }
-        return wholeList
+        println(wholeList)
     }
 
-    fun getWinRateFromFlexRank(summonerName: String, season: Int): MutableList<Any> {
-        val uniqueChampId: MutableList<Int> = staFlexRankRepository.getUniqueChampionIdBySummonerNameAndSeason(summonerName,season)
+    @Test
+    fun getWinRateFromFlexRankTest(){
+        val uniqueChampId: MutableList<Int> = staFlexRankRepository.getUniqueChampionIdBySummonerNameAndSeason("이로현",13)
 
         var wholeList = mutableListOf<Any>()
 
         uniqueChampId.forEach { champId->
             var winSum = 0f
             var allSum = 0f
+            var loseSum = 0f
             val result: MutableList<StaFlexRank> = staFlexRankRepository.getAllByChampionId(champId)
 
             result.forEach {
                 winSum += it.gameWinCount
                 allSum += it.gameAllCount
             }
-            val loseSum: Float = allSum - winSum
+            loseSum = allSum - winSum
             val winRate: Float = kotlin.math.round((((winSum / allSum) * 100))*100) / 100
+            println("챔피언 id : $champId, 총 경기 수 : ${allSum.toInt()}, 승리 : ${winSum.toInt()}, 패배 : ${loseSum.toInt()}, 승률 : $winRate%")
             var resultList = mutableListOf(champId,allSum.toInt(),winSum.toInt(),loseSum.toInt(),winRate)
             wholeList.add(resultList)
         }
-        return wholeList
+        println(wholeList)
     }
 }
