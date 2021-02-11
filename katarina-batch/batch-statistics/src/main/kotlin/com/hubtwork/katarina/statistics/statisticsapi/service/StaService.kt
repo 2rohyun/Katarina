@@ -83,7 +83,6 @@ class StaService(private val staSoloRankRepository: StaSoloRankRepository,
         val season: Int? = match?.seasonID
         val eachPlayer: List<MatchPlayerDTO>? = match?.players
 
-        eachPlayer?.forEach {
             eachPlayer?.forEach {
                 if (it.accountId == targetAccount) {
                     val championId: Int = it.champion
@@ -112,7 +111,7 @@ class StaService(private val staSoloRankRepository: StaSoloRankRepository,
                                 lane
                         )
                     } else {
-                        val match = StaNormalMatch(
+                        val match = StaSoloRank(
                                 targetAccount,
                                 championId,
                                 kill.toFloat(),
@@ -124,20 +123,18 @@ class StaService(private val staSoloRankRepository: StaSoloRankRepository,
                                 summonerName,
                                 lane
                         )
-                        val saved = staNormalMatchRepository.save(match)
-                        logger.info("[ Normal match ] ${saved.summonerName} enrolled SuccessFull")
+                        val saved = staSoloRankRepository.save(match)
+                        logger.info("[ Solo Rank ] ${saved.summonerName} enrolled SuccessFull")
                     }
                 }
             }
         }
-    }
 
     fun insertFlexRank(match: KatarinaMatchDTO?, targetAccount: String) {
 
         val season: Int? = match?.seasonID
         val eachPlayer: List<MatchPlayerDTO>? = match?.players
 
-        eachPlayer?.forEach {
             eachPlayer?.forEach {
                 if (it.accountId == targetAccount) {
                     val championId: Int = it.champion
@@ -166,7 +163,7 @@ class StaService(private val staSoloRankRepository: StaSoloRankRepository,
                                 lane
                         )
                     } else {
-                        val match = StaNormalMatch(
+                        val match = StaFlexRank(
                                 targetAccount,
                                 championId,
                                 kill.toFloat(),
@@ -178,20 +175,17 @@ class StaService(private val staSoloRankRepository: StaSoloRankRepository,
                                 summonerName,
                                 lane
                         )
-                        val saved = staNormalMatchRepository.save(match)
-                        logger.info("[ Normal match ] ${saved.summonerName} enrolled SuccessFull")
+                        val saved = staFlexRankRepository.save(match)
+                        logger.info("[ Flex Rank ] ${saved.summonerName} enrolled SuccessFull")
                     }
                 }
             }
         }
-    }
 
     fun insertARAM(match: KatarinaMatchDTO?, targetAccount: String) {
 
         val season: Int? = match?.seasonID
         val eachPlayer: List<MatchPlayerDTO>? = match?.players
-
-        eachPlayer?.forEach {
             eachPlayer?.forEach {
                 if (it.accountId == targetAccount) {
                     val championId: Int = it.champion
@@ -220,7 +214,7 @@ class StaService(private val staSoloRankRepository: StaSoloRankRepository,
                                 lane
                         )
                     } else {
-                        val match = StaNormalMatch(
+                        val match = StaARAM(
                                 targetAccount,
                                 championId,
                                 kill.toFloat(),
@@ -232,13 +226,12 @@ class StaService(private val staSoloRankRepository: StaSoloRankRepository,
                                 summonerName,
                                 lane
                         )
-                        val saved = staNormalMatchRepository.save(match)
-                        logger.info("[ Normal match ] ${saved.summonerName} enrolled SuccessFull")
+                        val saved = staARAMRepository.save(match)
+                        logger.info("[ ARAM ] ${saved.summonerName} enrolled SuccessFull")
                     }
                 }
             }
         }
-    }
 
     fun insertEventMatch(match: KatarinaMatchDTO?, targetAccount: String) {
 
@@ -273,7 +266,7 @@ class StaService(private val staSoloRankRepository: StaSoloRankRepository,
                             lane
                     )
                 } else {
-                    val match = StaNormalMatch(
+                    val match = StaEventMatch(
                             targetAccount,
                             championId,
                             kill.toFloat(),
@@ -285,8 +278,8 @@ class StaService(private val staSoloRankRepository: StaSoloRankRepository,
                             summonerName,
                             lane
                     )
-                    val saved = staNormalMatchRepository.save(match)
-                    logger.info("[ Normal match ] ${saved.summonerName} enrolled SuccessFull")
+                    val saved = staEventMatchRepository.save(match)
+                    logger.info("[ Event match ] ${saved.summonerName} enrolled SuccessFull")
                 }
             }
         }

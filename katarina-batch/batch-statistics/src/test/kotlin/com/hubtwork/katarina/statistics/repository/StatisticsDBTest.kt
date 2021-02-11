@@ -12,9 +12,16 @@ import com.hubtwork.katarina.statistics.statisticsapi.repository.StaSoloRankRepo
 import com.hubtwork.katarina.statistics.statisticsapi.service.StaService
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration
+import org.springframework.context.annotation.ComponentScan
+import org.springframework.context.annotation.Configuration
 import javax.transaction.Transactional
 
+@Configuration
+@EnableAutoConfiguration
+@ComponentScan
 class StatisticsDBTest: StatisticsApplicationTests() {
+
     @Autowired
     lateinit var userWithMatchRepository: UserWithMatchRepository
 
