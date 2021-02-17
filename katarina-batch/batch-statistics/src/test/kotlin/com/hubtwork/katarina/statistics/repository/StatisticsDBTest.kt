@@ -34,7 +34,7 @@ class StatisticsDBTest: StatisticsApplicationTests() {
     @Test
     fun insertStatisticsDBTest() {
         //target summoner's account id
-        val targetAccount: String = "yYWOOuEqQOgAozQCxuAt4vE_eYTSX4uVitPNYtLstram"
+        val targetAccount: String = "wzGWVnvYOOcKsUrTgvlTuuM7KEp1VWj8OtSYKFtCtvE"
 
         val matchAndQType: List<UserWithMatch> = userWithMatchRepository.getMatchesByAccountId(targetAccount)
         matchAndQType.forEach {
@@ -48,8 +48,21 @@ class StatisticsDBTest: StatisticsApplicationTests() {
                 450 -> staService.insertARAM(eachMatch,targetAccount)
                 else -> staService.insertEventMatch(eachMatch,targetAccount)
                 }
+            staService.insertDuoInfo(eachMatch, targetAccount)
             }
         }
 
+    @Test
+    fun insertDuoInfoTest(){
+        val targetAccount: String = "wzGWVnvYOOcKsUrTgvlTuuM7KEp1VWj8OtSYKFtCtvE"
 
+        val matchAndQType: List<UserWithMatch> = userWithMatchRepository.getMatchesByAccountId(targetAccount)
+        matchAndQType.forEach {
+            val eachMatch = matcherService.matchReader(it.matchId, it.queueType)
+
+            println(eachMatch?.matchId)
+
+            staService.insertDuoInfo(eachMatch, targetAccount)
+        }
+    }
 }

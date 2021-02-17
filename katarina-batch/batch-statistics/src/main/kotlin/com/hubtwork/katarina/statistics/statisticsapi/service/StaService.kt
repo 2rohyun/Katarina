@@ -20,7 +20,8 @@ class StaService(private val staSoloRankRepository: StaSoloRankRepository,
                  private val staNormalMatchRepository: StaNormalMatchRepository,
                  private val staARAMRepository: StaARAMRepository,
                  private val staFlexRankRepository: StaFlexRankRepository,
-                 private val staEventMatchRepository: StaEventMatchRepository
+                 private val staEventMatchRepository: StaEventMatchRepository,
+                 private val staDuoInfoRepository: StaDuoInfoRepository
                          ) {
 
     companion object {
@@ -285,6 +286,40 @@ class StaService(private val staSoloRankRepository: StaSoloRankRepository,
         }
     }
 
+    fun insertDuoInfo(match: KatarinaMatchDTO?, targetAccount: String){
+        val eachPlayer: List<MatchPlayerDTO>? = match?.players
+
+        var teamInfo = 100
+        var summonerName = ""
+        var gameWinCount: Int = 0
+        eachPlayer?.forEach{
+            if(it.accountId == targetAccount){
+                teamInfo = it.team
+                summonerName = it.summonerName
+                if(it.win){
+                    gameWinCount = 1
+                }
+            }
+        }
+
+        eachPlayer?.forEach{
+            if(it.accountId != targetAccount && it.team == teamInfo){
+                if(staDuoInfoRepository.checkExistedSummoner(summonerName, it.summonerName).size >= 1){
+                    staDuoInfoRepository.updateDuoInfo(summonerName, it.summonerName, gameWinCount)
+                    staDuoInfoRepository.updateDuoInfo(it.summonerName, summonerName, gameWinCount)
+                }else{
+                    val summonerInfo = StaDuoInfo(targetAccount, summonerName, it.accountId, it.summonerName, gameWinCount, 1)
+                    val duoInfo = StaDuoInfo(it.accountId, it.summonerName, targetAccount, summonerName,  gameWinCount, 1)
+
+                    val savedSummoner = staDuoInfoRepository.save(summonerInfo)
+                    logger.info("[ DUO_INFO ] ${savedSummoner.summonerName} enrolled SuccessFull")
+
+                    val savedDuo = staDuoInfoRepository.save(duoInfo)
+                    logger.info("[ DUO_INFO ] ${savedDuo.summonerName} enrolled SuccessFull")
+                }
+            }
+        }
+    }
     fun insertStatisticsDB(targetAccount: String) {
         val matchAndQType: List<UserWithMatch> = userWithMatchRepository.getMatchesByAccountId(targetAccount)
 
@@ -298,6 +333,7 @@ class StaService(private val staSoloRankRepository: StaSoloRankRepository,
                 450 -> insertARAM(eachMatch, targetAccount)
                 else -> insertEventMatch(eachMatch, targetAccount)
             }
+            insertDuoInfo(eachMatch, targetAccount)
         }
     }
 }
