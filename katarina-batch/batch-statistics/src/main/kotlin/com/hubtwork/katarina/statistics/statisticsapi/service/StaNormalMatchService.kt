@@ -7,12 +7,13 @@ import org.springframework.stereotype.Service
 @Service
 class StaNormalMatchService(private val staNormalMatchRepository: StaNormalMatchRepository) {
 
-    fun getKDAFromNormalMatch(summonerName: String, season: Int): MutableList<Any> {
-        val uniqueChampId: MutableList<Int> = staNormalMatchRepository.getUniqueChampionIdBySummonerNameAndSeason(summonerName,season)
+    fun getKDAFromNormalMatch(accountId: String, season: Int): MutableList<Any> {
+        val uniqueChampId: MutableList<Int> =
+            staNormalMatchRepository.getUniqueChampionIdByAccountIdAndSeason(accountId, season)
 
         var wholeList = mutableListOf<Any>()
 
-        uniqueChampId.forEach { champId->
+        uniqueChampId.forEach { champId ->
             var killSum = 0F
             var deathSum = 0F
             var assistSum = 0F
@@ -25,26 +26,29 @@ class StaNormalMatchService(private val staNormalMatchRepository: StaNormalMatch
                 assistSum += it.assist
             }
 
-            val killAvg: Float = kotlin.math.round((killSum / kda.size)*100) / 100
-            val deathAvg: Float = kotlin.math.round((deathSum / kda.size)*100) / 100
-            val assistAvg: Float = kotlin.math.round((assistSum / kda.size)*100) / 100
+            val killAvg: Float = kotlin.math.round((killSum / kda.size) * 100) / 100
+            val deathAvg: Float = kotlin.math.round((deathSum / kda.size) * 100) / 100
+            val assistAvg: Float = kotlin.math.round((assistSum / kda.size) * 100) / 100
 
-            kdaAvg = if(deathAvg != 0F) {
+            kdaAvg = if (deathAvg != 0F) {
                 kotlin.math.round(((killAvg + assistAvg / deathAvg) / kda.size) * 100) / 100
-            }else{ "Perfect" }
+            } else {
+                "Perfect"
+            }
 
-            var kdaList = mutableListOf(champId,killAvg,deathAvg,assistAvg,kdaAvg)
+            var kdaList = mutableListOf(champId, killAvg, deathAvg, assistAvg, kdaAvg)
             wholeList.add(kdaList)
         }
         return wholeList
     }
 
     fun getWinRateFromNormalMatch(summonerName: String, season: Int): MutableList<Any> {
-        val uniqueChampId: MutableList<Int> = staNormalMatchRepository.getUniqueChampionIdBySummonerNameAndSeason(summonerName,season)
+        val uniqueChampId: MutableList<Int> =
+            staNormalMatchRepository.getUniqueChampionIdByAccountIdAndSeason(summonerName, season)
 
         var wholeList = mutableListOf<Any>()
 
-        uniqueChampId.forEach { champId->
+        uniqueChampId.forEach { champId ->
             var winSum = 0f
             var allSum = 0f
             val result: MutableList<StaNormalMatch> = staNormalMatchRepository.getAllByChampionId(champId)
@@ -54,29 +58,28 @@ class StaNormalMatchService(private val staNormalMatchRepository: StaNormalMatch
                 allSum += it.gameAllCount
             }
             val loseSum: Float = allSum - winSum
-            val winRate: Float = kotlin.math.round((((winSum / allSum) * 100))*100) / 100
-            var resultList = mutableListOf(champId,allSum.toInt(),winSum.toInt(),loseSum.toInt(),winRate)
+            val winRate: Float = kotlin.math.round((((winSum / allSum) * 100)) * 100) / 100
+            var resultList = mutableListOf(champId, allSum.toInt(), winSum.toInt(), loseSum.toInt(), winRate)
             wholeList.add(resultList)
         }
         return wholeList
     }
 
-    fun getPreferencePositionFromNormalMatch(summonerName: String, season: Int): MutableList<Any> {
-        val position: MutableList<String> = staNormalMatchRepository.getLaneBySummonerName(summonerName,season)
-
+    fun getWinRateByPreferencePositionFromNormalMatch(accountId: String, season: Int): MutableList<Any> {
+        val position: MutableList<StaNormalMatch> = staNormalMatchRepository.getAllByAccountId(accountId, season)
         var topCount = 0
         var jugCount = 0
         var midCount = 0
         var adCount = 0
         var supCount = 0
 
-        position.forEach { posi->
-            when(posi){
-                "TOP" -> topCount++
-                "JUNGLE" -> jugCount++
-                "MIDDLE" -> midCount++
-                "BOTTOM CARRY" -> adCount++
-                "BOTTOM SUPPORT" -> supCount++
+        position.forEach {
+            when (it.lane) {
+                "TOP" -> topCount += it.gameAllCount
+                "JUNGLE" -> jugCount += it.gameAllCount
+                "MIDDLE" -> midCount += it.gameAllCount
+                "BOTTOM CARRY" -> adCount += it.gameAllCount
+                "BOTTOM SUPPORT" -> supCount += it.gameAllCount
             }
         }
         val lane = hashMapOf(
@@ -84,9 +87,10 @@ class StaNormalMatchService(private val staNormalMatchRepository: StaNormalMatch
             "미드" to midCount,
             "원딜" to adCount,
             "서폿" to supCount,
-            "탑" to topCount)
+            "탑" to topCount
+        )
 
-        val result = lane.toList().sortedBy { (_, value) -> value}
+        val result = lane.toList().sortedBy { (_, value) -> value }
         println("포지션 별 플레이 횟수 : $result")
 
         var all = mutableListOf<Any>()
@@ -95,8 +99,7 @@ class StaNormalMatchService(private val staNormalMatchRepository: StaNormalMatch
 
         return all
     }
-
-
 }
+
 
 

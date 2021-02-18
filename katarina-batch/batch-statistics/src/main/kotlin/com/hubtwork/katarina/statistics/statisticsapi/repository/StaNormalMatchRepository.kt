@@ -9,15 +9,15 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface StaNormalMatchRepository: JpaRepository<StaNormalMatch, Long> {
-    @Query("select distinct champion_id from STA_normal_match where summoner_name = :summoner_name and season = :season", nativeQuery = true)
-    fun getUniqueChampionIdBySummonerNameAndSeason(@Param("summoner_name")summoner_name: String,
+    @Query("select distinct champion_id from STA_normal_match where account_id = :account_id and season = :season", nativeQuery = true)
+    fun getUniqueChampionIdByAccountIdAndSeason(@Param("account_id")account_id: String,
                                              @Param("season")season: Int) : MutableList<Int>
 
     @Query("select * from STA_normal_match where champion_id = :champion_id",nativeQuery = true)
     fun getAllByChampionId(@Param("champion_id")champion_id: Int): MutableList<StaNormalMatch>
 
-    @Query("select lane from STA_normal_match where summoner_name = :summoner_name and season = :season", nativeQuery = true)
-    fun getLaneBySummonerName(@Param("summoner_name")summoner_name: String, @Param("season")season: Int) : MutableList<String>
+    @Query("select * from STA_normal_match where account_id = :account_id and season = :season", nativeQuery = true)
+    fun getAllByAccountId(@Param("account_id")account_id: String, @Param("season")season: Int) : MutableList<StaNormalMatch>
 
     @Query("select * from STA_normal_match where summoner_name = :summoner_name and season = :season and champion_id = :champion_id and lane = :lane", nativeQuery = true)
     fun checkExistedChampion(@Param("summoner_name")summoner_name: String,
